@@ -112,3 +112,5 @@ project2.pptx
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+# The config file
+./static/js/config.js
