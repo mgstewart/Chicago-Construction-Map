@@ -108,3 +108,7 @@ venv.bak/
 
 # ProjectPowerpoint
 project2.pptx
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
