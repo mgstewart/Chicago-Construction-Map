@@ -14,15 +14,15 @@ from sqlalchemy import create_engine
 from flask import Flask, jsonify, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 
 #################################################
 # Database Setup
 #################################################
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data/chidata.sqlite"
-db = SQLAlchemy(app)
+application.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data/chidata.sqlite"
+db = SQLAlchemy(application)
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -42,14 +42,14 @@ demo_2014 = Base.classes.demo_2014
 demo_2015 = Base.classes.demo_2015
 demo_2016 = Base.classes.demo_2016
 
-@app.route("/")
-@app.route("/index")
+@application.route("/")
+@application.route("/index")
 def index():
     """Return the homepage."""
     return render_template("index.html")
 
 
-@app.route("/building_permits/<year>")
+@application.route("/building_permits/<year>")
 def building_permit(year):
     """This endpoint returns a json of building permit data for the year chosen."""
     #Generate the table query statement with FlaskSQLAlchemy
@@ -66,12 +66,12 @@ def building_permit(year):
     json_array = json.dumps(list_of_json)
     return json_array
 
-@app.route("/censustracts")
+@application.route("/censustracts")
 def census_tracts():
     '''This endpoint returns a featureCollection of GeoJSONs '''
-    return app.send_static_file('./geoJSON/tracts2010.geojson')
+    return application.send_static_file('./geoJSON/tracts2010.geojson')
 
-@app.route("/demographics/<year>")
+@application.route("/demographics/<year>")
 def demographic_data(year):
     '''This endpoint returns a JSON of demographic data with a census tract ID for Chicagoland.'''
     query_str = 'demo_'+str(year)
@@ -103,15 +103,15 @@ def demographic_data(year):
     return json_array
 
 
-@app.route("/tifdata")
+@application.route("/tifdata")
 def tifdata():
     '''This endpont returns a geoJSON from a local directory for leaflet mapping.'''
-    return app.send_static_file('./geoJSON/tifProjects.geojson')
+    return application.send_static_file('./geoJSON/tifProjects.geojson')
 
-@app.route("/tif_boundaries")
+@application.route("/tif_boundaries")
 def tifboundary():
     '''This endpont returns a geoJSON from a local directory for leaflet mapping.'''
-    return app.send_static_file('./geoJSON/tif_boundaries.geojson')
+    return application.send_static_file('./geoJSON/tif_boundaries.geojson')
 
 if __name__ == "__main__":
-    app.run(debug=True,threaded=True)
+    application.run(debug=True,threaded=True)
